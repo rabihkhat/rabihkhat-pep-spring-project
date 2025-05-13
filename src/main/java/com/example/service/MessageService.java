@@ -14,6 +14,10 @@ public class MessageService {
     @Autowired
     MessageRepository messageRepository;
 
+    public boolean isValid(Message message) {
+        return message.getMessageText() != null && !message.getMessageText().isBlank() && message.getMessageText().length() <= 255;
+    }
+
     public Message save(Message message) {
         return messageRepository.save(message);
     }    

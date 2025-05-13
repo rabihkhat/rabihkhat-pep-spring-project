@@ -11,6 +11,10 @@ public class AccountService {
     @Autowired
     private AccountRepository accountRepository;
 
+    public boolean isValid(Account account) {
+        return account.getUsername() != null && account.getPassword() != null && account.getPassword().length() >= 4;
+    }
+    
     public boolean existsByUsername(String username) {
         return accountRepository.existsByUsername(username);
     }

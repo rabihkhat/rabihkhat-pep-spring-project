@@ -41,7 +41,7 @@ public class SocialMediaController {
      */
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody Account account) {
-        if (account.getUsername() == null|| account.getPassword().length() < 4) {
+        if (!accountService.isValid(account)) {
             return ResponseEntity.badRequest().build();
         } else if (accountService.existsByUsername(account.getUsername())) {
             return ResponseEntity.status(409).build();
@@ -74,7 +74,7 @@ public class SocialMediaController {
      */
     @PostMapping("/messages")
     public ResponseEntity<?> postMessage(@RequestBody Message message) {
-        if (message.getMessageText().isBlank() || message.getMessageText().length() > 255 || accountService.existsById(message.getPostedBy()) == false) {
+        if (!messageService.isValid(message) || !accountService.existsById(message.getPostedBy())) {
             return ResponseEntity.badRequest().build();
         }
         Message created = messageService.save(message);
